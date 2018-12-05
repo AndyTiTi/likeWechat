@@ -9,21 +9,92 @@
         <span class="left_img">
         	<span class="img_wapper_span common_back"></span>
         </span>
-        <span class="rig_concent xt_flex flex_shu_pailie">
-        	<div class="nickName">MR.ANT</div>
-        <div>加啊咖啡吧富爸爸发把接口加啊咖啡吧富爸爸发把接口加啊咖啡吧富爸爸发把接口</div>
+        <span class="rig_concent">
+        	<div class="nickName">{{nickName}}</div>
+        	<div class="pyq_conent">{{concent}}</div>
+        	<!-- 图片等 -->
+        	<!-- <div v-if="imgInfo!=''" class="img_con_wapper"> -->
+        	<div class="img_con_wapper">
+        		<img :src="imgInfo">
+        	</div>
+        	<!-- 地点 -->
+        	<div v-if="yourway!=''" class="yourway">{{yourway}}</div>
+        	<!-- 时间 -->
+        	<div class="time_line">
+        		{{timeInfo}}
+        		<span class="make_del">删除</span>
+        <img src="../assets/wx_pl_03.png" height="46" width="65">
+        	</div>
         </span>
       </div>
+      <!-- 点赞和评论区 -->
+      <div class="like_say_words">
+        <!-- 小三角 -->
+        <span class="triangle_border_up"></span>
+        <!-- 点赞区 -->
+        <div class="make_like_wapper xt_flex ">
+          <!-- 左边的点赞icon -->
+          <div class="left_heart_icon xt_flex xt_flex_der xt_flex_row_center">
+            <img src="../assets/wx_like_03.png" height="30" width="38">
+          </div>
+            <!-- 右边的渲染头像 -->
+            <div class="xt_flex xt_allow_wrap">
+              <div v-for="(item,index) in likeImg" :style="{backgroundImage: 'url('+item+')'}" class="make_bad_header_img common_back "></div>
+            </div>
+          </div>
+        </div>
+        <!-- 点赞区end -->
+        <!-- 评论区 -->
+        <div class="make_words">
+          <template v-for="(item,index) in wordsAll">
+            <div class="one_word xt_flex">
+              <!-- 左边头像 -->
+              <div class="word_img_left common_back" :style="{backgroundImage:'url('+item.img+')'}"></div>
+              <!-- 右边内容 -->
+              <div class="word_time_nick">
+                <!-- 昵称和时间行 -->
+                <div class="word_inline_wapper xt_flex xt_flex_row_bettwen">
+                  <span class="nickName_inner">{{item.nickName}}</span>
+                  <span class="inner_time_line">{{item.time}}</span>
+                </div>
+                <!-- 内容 -->
+                <div class="friend_words">{{item.word}}</div>
+              </div>
+            </div>
+          </template>
+        </div>
+        <!-- 评论区end -->
+      </div>
     </div>
-  </div>
 </template>
 <script>
+import { GetDateAndHourStr } from '@/utils'
 export default {
   name: 'List',
   data() {
     return {
-      show: false
+      show: false,
+      nickName: "MR.ANT", //昵称
+      concent: "加啊咖啡吧富爸爸发把接口加啊咖啡吧富爸爸发把接口加啊咖啡吧富爸爸发把接口", //朋友圈内容
+      imgInfo: '', //朋友圈内容与没有图片
+      yourway: '测试移动度', //地点
+      timeInfo: GetDateAndHourStr(16), //时间
+      likeImg: [
+        'https://an888.net/image/fixer.jpg',
+        'https://an888.net/image/fixer.jpg',
+        'https://an888.net/image/fixer.jpg',
+        'https://an888.net/image/fixer.jpg',
+      ], //头像
+      wordsAll: [{
+        img: 'https://an888.net/image/fixer.jpg',
+        nickName: '丽丽',
+        word: '开发你无法窝囊废',
+        time: GetDateAndHourStr()
+      }]
     };
+  },
+  mounted() {
+
   },
   methods: {
     topBack() { //上方返回
@@ -36,6 +107,10 @@ export default {
 <style scoped lang="scss">
 $grey:#ecf3fd; //灰色
 $blueFont:#616e91; //蓝色字体
+$greyFont:#8a8a8a; //  灰色字体
+$backArea:#eeeeee; //点赞去背景色
+$fontSizeCommon:40px;
+$fontSizeSmall:35px;
 
 .detail_wapper {
   background-color: #fff;
@@ -44,6 +119,113 @@ $blueFont:#616e91; //蓝色字体
   right: 0;
   top: 0;
   bottom: 0;
+
+  .make_words {
+    width: 100%;
+    font-weight: 600;
+    min-height: 30px;
+    background-color: $backArea;
+    box-sizing: border-box;
+    padding: 25px 15px 25px 85px;
+
+    .one_word {
+
+      .word_time_nick {
+        width: 89%;
+      }
+
+      .friend_words {
+        font-size: $fontSizeCommon;
+
+      }
+
+      .word_inline_wapper {
+        font-size: $fontSizeSmall;
+        margin-top: -10px;
+        margin-bottom: 4px;
+      }
+
+      .nickName_inner {
+        color: $blueFont;
+
+      }
+
+      .inner_time_line {
+        color: $greyFont;
+        margin-right: 38px;
+      }
+    }
+
+    // background-color: red;
+    .word_img_left {
+      width: 86px;
+      height: 86px;
+      margin-right: 25px;
+      border: 1px solid red;
+      display: inline-block;
+    }
+  }
+
+  .like_say_words {
+    width: 100%;
+    position: relative;
+    margin-top: 70px;
+    border-radius: 2px;
+    min-height: 30px;
+    background-color: $backArea;
+
+
+    .make_like_wapper {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px 0;
+      padding-bottom: 0;
+      border-bottom: 1px solid #fff;
+
+
+      .make_bad_header_img {
+        width: 86px;
+        height: 86px;
+        border: 1px solid red;
+        display: inline-block;
+        margin-right: 15px;
+        margin-bottom: 15px;
+      }
+
+      .no_margin {
+        margin-right: 0;
+
+      }
+
+      .left_heart_icon {
+        // width: 86px;
+        flex: 0 0 86px;
+        height: 86px;
+        // display: inline-block;
+        // border: 1px solid red;
+
+        img {
+          width: 36px;
+          height: 30px;
+        }
+      }
+    }
+
+    /*向上*/
+    .triangle_border_up {
+      width: 0;
+      height: 0;
+      border-width: 0 36px 36px;
+      border-style: solid;
+      border-color: transparent transparent $backArea;
+      /*透明 透明  灰*/
+      // margin: 36px auto;
+      position: absolute;
+      top: -16px;
+      left: 10px;
+    }
+
+  }
 
   .concent_wapper {
     box-sizing: border-box;
@@ -54,32 +236,71 @@ $blueFont:#616e91; //蓝色字体
 
     .imgandCon_wapper {
       .rig_concent {
-        font-size: 16px;
-        // width:700px;
+        font-weight: 600;
+        font-size: $fontSizeCommon;
+      }
+
+      .time_line {
+        color: $greyFont;
+        margin-top: 16px;
+        font-size: $fontSizeSmall;
+
+        img {
+          width: 60px;
+          height: 50px;
+          float: right;
+        }
+
+        .make_del {
+          color: $blueFont;
+        }
+      }
+
+      .yourway {
+        color: $blueFont;
+        font-size: $fontSizeSmall;
+      }
+
+      .img_con_wapper {
+        width: 100px;
+        height: 30px;
+        border: 2px solid red;
+        margin-bottom: 25px;
+      }
+
+      .pyq_conent {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 25px;
+        line-height: 45px;
+
       }
 
       .nickName {
         color: $blueFont;
         font-weight: 600;
-        margin-bottom: 19px;
+
+        margin-bottom: 17px;
       }
 
-  //     [w-102-102] {
-  //       width: 102px;
+      //     [w-102-102] {
+      //       width: 102px;
 
-  // }
-  //     [w-102-102] {
-  //       aspect-ratio: '102:102';
+      // }
+      //     [w-102-102] {
+      //       aspect-ratio: '102:102';
 
-  //     }
+      //     }
 
       .left_img {
-        // margin-right: 22px;
-        width: 102px;
+        margin-right: 22px;
+        // width: 102px;
+        flex: 0 0 102px;
         height: 102px;
 
         // border: 1px solid $grey;
-        // display: inline-block;
+        display: inline-block;
+
         // box-sizing:border-box;
         .img_wapper_span {
           display: inline-block;
