@@ -42,3 +42,19 @@ export function GetDateAndHourStr(minAgo, randomAgo, baseTime) { // 将后台传
 export function makeRandomCount() {
   return Math.floor(Math.random() * 20 + 1)
 }
+
+
+export function jsReadFiles(files, localStoKey, giveWho) { //h5 FileReader将图片转换为base64格式
+  var file = files[0];
+  console.log(file)
+  if (!/image\/\w+/.test(file.type)) {
+    alert("请确保文件为图像类型");
+    return false;
+  }
+  var reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function(e) {
+    localStorage.setItem(localStoKey, this.result);
+    giveWho = this.result
+  }
+}
