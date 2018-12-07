@@ -5,12 +5,11 @@ import App from './App'
 import router from './router'
 import './styles/index.scss'
 // import './styles/index.scss'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
-
+// 引入全部组件
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 Vue.config.productionTip = false
-
+Vue.use(MintUI)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

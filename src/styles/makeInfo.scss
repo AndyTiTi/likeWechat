@@ -1,0 +1,14 @@
+ .inner_no_padding {
+   .mint-radiolist {
+     div.mint-cell-title {
+       width: auto;
+       // background-color: red;
+       // border: 1px solid red;
+       label{
+        padding: 0 2px;
+        margin-right: -13px;
+       }
+     }
+   }
+
+ }

@@ -38,12 +38,50 @@ export function GetDateAndHourStr(minAgo, randomAgo, baseTime) { // 将后台传
   }
   return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute + ':' + seconds
 }
-
+export function GetDateAndHourMake(data) {
+  var dd = data ? data : new Date()
+  console.log(dd)
+  var y = dd.getFullYear()
+  var m = dd.getMonth() + 1
+  var d = dd.getDate()
+  var hour = dd.getHours()
+  var minute = dd.getMinutes()
+  var seconds = dd.getSeconds()
+  if (m < 10) {
+    m = '0' + m
+  }
+  if (d < 10) {
+    d = '0' + d
+  }
+  if (minute < 0) {
+    minute = 60 + minute
+    hour = hour - 1
+  }
+  if (hour < 10) {
+    hour = '0' + hour
+  }
+  if (seconds < 10) {
+    seconds = '0' + seconds
+  }
+  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute + ':' + seconds
+}
 export function makeRandomCount() {
   return Math.floor(Math.random() * 20 + 1)
 }
 
 
+export function setLocal(key, obj) { //保存localStorage的obj格式
+  var str = JSON.stringify(obj);
+  localStorage.setItem(key, str)
+}
+export function getLocal(key) { //读取localStorage的obj格式
+  if (localStorage.getItem(key) !== "" && localStorage.getItem(key) !== undefined && localStorage.getItem(key) !== null) {
+    var strGet = localStorage.getItem(key)
+    return JSON.parse(strGet);
+  }
+
+
+}
 export function jsReadFiles(files, localStoKey, giveWho) { //h5 FileReader将图片转换为base64格式
   var file = files[0];
   console.log(file)
