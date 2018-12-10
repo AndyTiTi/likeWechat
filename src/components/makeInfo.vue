@@ -56,6 +56,8 @@
         </mt-field>
         <mt-field label="链接内容" placeholder="" v-model="formInline.smallContent" placeholder="链接里图片旁的文字">
         </mt-field>
+        <mt-field label="链接的网址" placeholder="" v-model="formInline.smallImgLink" placeholder="例:http://baidu.com">
+        </mt-field>
       </template>
       <!-- 链接情况下 end -->
       <!-- 时间 -->
@@ -119,6 +121,7 @@ export default {
         realImgsWid: '', //朋友圈的图片的宽
         realImgsHei: '', //朋友圈的图片的高
         smallImg: '', // 链接缩略图
+        smallImgLink: 'http://www.baidu.com', // 链接网址
         smallContent: '', // 链接内容
         sendTime: GetDateAndHourStr(), // 发送时间
         sendTimeNoformat: new Date().getTime(), // 发送时间(未格式化)

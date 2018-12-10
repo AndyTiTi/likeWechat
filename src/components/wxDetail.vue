@@ -12,7 +12,7 @@
         <span class="rig_concent">
           <div class="nickName">{{formInline.nickName}}</div>
           <!-- 链接形式 -->
-          <div v-if="formInline.contentStyle==='链接'" class="type_link xt_flex xt_flex_der">
+          <div @click="jumpUrl" v-if="formInline.contentStyle==='链接'" class="type_link xt_flex xt_flex_der">
             <span class="type_link_inner_left common_back" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
         <div class="type_link_inner_right">{{formInline.smallContent}}</div>
       </div>
@@ -164,6 +164,9 @@ export default {
         })
       }
       this.wordsAll = makeTempJson
+    },
+    jumpUrl() {
+      window.href = this.formInline.smallImgLink
     },
     topBack() { //上方返回
       this.$router.push('/')
@@ -425,7 +428,7 @@ $fontSizeSmall:35px;
       }
 
       .time_line {
-      
+
         width: 770px;
         color: $greyFont;
         margin-top: 16px;
