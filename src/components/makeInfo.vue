@@ -42,7 +42,8 @@
           <span v-for="(item,index) in formInline.realImgs" v-if="formInline.realImgs.length>0" class="inner_img_header common_back" @click="uploadBtnOne('inpTwo')" :style="{backgroundImage:'url('+item+')'}"></span>
           <!--  -->
           <input accept="image/*" type="file" ref="inpTwo" @change="jsReadFiles($event,'realImgs','realImgs','form','arr')" style="display: none;" />
-          <mt-button size="small" type="default" @click="uploadBtnOne('inpTwo')">上传</mt-button>
+          <mt-button size="small" type="primary" @click="uploadBtnOne('inpTwo')">上传</mt-button>
+          <mt-button size="small" @click="clearRealImgs">清空</mt-button>
           <!-- <mt-button size="small" type="default" @click="test()">上传</mt-button> -->
         </mt-field>
       </template>
@@ -80,6 +81,12 @@
       <div class="inner_make_btn">
         <mt-button type="primary" size="small" @click="postForm">生成</mt-button>
         <mt-button size="small" @click="delForm">清空</mt-button>
+      </div>
+      <div class="some_tips">
+        <div>提示：如果点击“生成”按钮，页面无反应，基本原因是图片太大，请点击“清空”按钮后,
+          将图片在线压缩后再上传</div>
+        <a href="https://www.tiomg.org/image">在线压缩地址1</a>
+        <a href="https://www.secaibi.com/tools/">在线压缩地址2</a>
       </div>
       <!-- 页脚组件 -->
       <comm-bottom></comm-bottom>
@@ -169,6 +176,9 @@ export default {
         }
       }
     },
+    clearRealImgs() { //清空朋友圈内容图片
+      this.formInline.realImgs = []
+    },
     handleConfirm(data) { //时间的确定事件
       this.formInline.sendTimeNoformat = data //未格式化的时间
       let date = GetDateAndHourMake(data)
@@ -233,6 +243,7 @@ $returnMesBk:#f5f5f5; //下方回复区域背景色 灰色
 $returnMesBorder:#dcdcdc; //下方回复区域上边框颜色
 $fontSizeCommon:40px;
 $fontSizeSmall:35px;
+$fontGold:#F5A623; //金色
 
 .makeInfo_wapper {
   padding: 20px;
@@ -244,6 +255,20 @@ $fontSizeSmall:35px;
   top: 0;
   bottom: 0;
   background-image: url('../assets/maldives_wedding-wallpaper-1280x800.jpg');
+
+  .some_tips {
+    text-align: center;
+    font-size: $fontSizeSmall;
+    background-color: #fff;
+    padding: 20px;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 10px;
+
+    a {
+      color: $fontGold;
+    }
+  }
 
   .inner_make_btn {
     margin-top: 30px;
