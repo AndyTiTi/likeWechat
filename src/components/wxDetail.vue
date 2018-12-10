@@ -7,27 +7,35 @@
       <!-- 头像和内容的盒子 -->
       <div class="imgandCon_wapper xt_flex ">
         <span class="left_img">
-          <span class="img_wapper_span common_back"></span>
+          <span class="img_wapper_span common_back" :style="{backgroundImage:'url('+formInline.yourHeaderImg+')'}"></span>
         </span>
         <span class="rig_concent">
-          <div class="nickName">{{nickName}}</div>
-          <div class="pyq_conent">{{concent}}</div>
-          <!-- 图片等 -->
-          <!-- 多张图 -->
-          <template v-if="bigImgInfos.length>1">
-            <div class="xt_flex xt_allow_wrap">
-          <div v-for="(item,index) in bigImgInfos" class="common_back"  :class="bigImgInfos.length%3===0||bigImgInfos.length>2 ? 'img_con_wapper_more_3' : 'img_con_wapper_more'" :style="{backgroundImage:'url('+item+')'}"></div>
-          </div>
-          </template>
-          <!-- 一张图 -->
-          <div v-else  class="common_back" :class="baseImgSizeClass" :style="{backgroundImage:'url('+imgInfo+')'}">
-          </div>
-          <!-- 地点 -->
-          <div v-if="yourway!=''" class="yourway">{{yourway}}</div>
-          <!-- 时间 -->
-          <div class="time_line">
-            {{timeInfo}}
-            <span class="make_del">删除</span>
+          <div class="nickName">{{formInline.nickName}}</div>
+          <!-- 链接形式 -->
+          <div v-if="formInline.contentStyle==='链接'" class="type_link xt_flex xt_flex_der">
+            <span class="type_link_inner_left common_back" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
+        <div class="type_link_inner_right">{{formInline.smallContent}}</div>
+      </div>
+      <!-- 链接形式 end-->
+      <!-- 内容形式 -->
+      <div v-else class="pyq_conent">{{formInline.realContent}}</div>
+      <!-- 图片等 -->
+      <!-- 多张图 -->
+      <template v-if="formInline.realImgs.length>1">
+        <div class="xt_flex xt_allow_wrap">
+          <div v-for="(item,index) in formInline.realImgs" class="common_back" :class="formInline.realImgs.length%3===0||formInline.realImgs.length>2 ? 'img_con_wapper_more_3' : 'img_con_wapper_more'" :style="{backgroundImage:'url('+item+')'}"></div>
+        </div>
+      </template>
+      <!-- 一张图 -->
+      <div v-else class="common_back" :class="baseImgSizeClass" :style="{backgroundImage:'url('+formInline.realImgs[0]+')'}">
+      </div>
+      <!-- 内容形式 end-->
+      <!-- 地点 -->
+      <div v-if="formInline.localtion!=''" class="yourway">{{formInline.localtion}}</div>
+      <!-- 时间 -->
+      <div class="time_line">
+        {{formInline.sendTime}}
+        <span class="make_del">删除</span>
         <img src="../assets/wx_pl_03.png" height="46" width="65">
           </div>
         </span>
@@ -86,149 +94,91 @@
         </div>
 </template>
 <script>
-import { GetDateAndHourStr,makeRandomCount } from '@/utils'
+import { GetDateAndHourStr, GetDateDel, makeRandomCount, getLocal } from '@/utils'
+import { returnImg, returnName, returnNoreapt } from "@/utils/makeJson.js"
+
 export default {
   name: 'List',
   data() {
     return {
       show: false,
-      bigImgInfo: { //朋友圈图片的信息
-        wid: '330',
-        hei: '300'
+      formInline: { //表单信息
+        nickName: 'ant', //昵称
+        yourHeaderImg: '', //头像
+        contentStyle: '链接', //朋友圈形式(内容、链接)
+        realContent: '', //朋友圈内容
+        realImgs: ['https://an888.net/image/1988-01.jpg'], //朋友圈的图片们
+        realImgsWid: '', //朋友圈的图片的宽
+        realImgsHei: '', //朋友圈的图片的高
+        smallImg: '', // 链接缩略图
+        smallContent: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈', // 链接内容
+        sendTime: '', // 发送时间
+        localtion: '', //地点
+        sendTimeNoformat: '', // 发送时间(未格式化)
+        makeLikeCount: 2, //点赞个数
+        makeContentCount: 10, //评论个数
+        makeContent: '评论内容', //评论内容
       },
       baseImgSizeClass: '', //根据图片的长宽决定图片的class
-      bigImgInfos: [ //多张图片的url
-        'https://an888.net/image/1988-01.jpg',
-        'https://an888.net/image/1988-01.jpg',
-        // 'https://an888.net/image/1988-01.jpg',
-        // 'https://an888.net/image/1988-01.jpg',
-        'https://an888.net/image/1988-01.jpg',
-      ],
       makeBadInp: '', //假装的一个输入框
-      nickName: "大猪蹄子", //昵称
-      concent: "加啊咖啡吧富爸爸发把接口加啊咖啡吧富爸爸发把接口加啊咖啡吧富爸爸发把接口", //朋友圈内容
-      imgInfo: 'https://an888.net/image/1988-01.jpg', //朋友圈内容与没有图片
-      yourway: '测试移动度', //地点
-      timeInfo: GetDateAndHourStr(16), //时间,参数代表往前减几分
-      likeImg: [
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-        'https://an888.net/image/fixer.jpg',
-      ], //头像
+      likeImg: [], //头像
       wordsAll: [{
         img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, {
-        img: 'https://an888.net/image/fixer.jpg',
-        nickName: '丽丽',
-        word: '开发你无法窝囊废',
-        time: GetDateAndHourStr(false)
-      }, ]
+        nickName: 'ant',
+        word: '嘻嘻嘻',
+        time: GetDateAndHourStr()
+      }]
     };
   },
   mounted() {
-    this.baseimg()
+    this.initData() //从localStorage取得的信息
   },
   methods: {
+    initData() {
+      if (getLocal('makeJson')) { //如果local有数据
+        this.formInline = getLocal('makeJson')
+        console.log(this.formInline)
+        if (this.formInline.realImgs.length === 1) { //只有一张
+          this.baseimg() //根据图片的长宽来决定怎么显示图片
+        }
+        this.getLike() //获取点赞的头像
+        this.getContent() //获取评论内容
+      }
+
+    },
+    getContent() { //获取评论内容
+      let howCount = this.formInline.makeContentCount //总共要生成多少条评论
+      let _that = this
+
+      let getNick = returnName(howCount) //拿到对应数量的昵称
+      let getImgHeader = returnImg(howCount, 0, 90) //拿到对应数量的头像
+      let getTimeNum = returnNoreapt(howCount, 0, 30) //生成0-30的随机数(时间)
+      let makeTempJson = []
+      for (var i = 0; i < howCount; i++) {
+        makeTempJson.push({
+          img: getImgHeader[i],
+          nickName: getNick[i],
+          word: _that.formInline.makeContent,
+          time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
+
+        })
+      }
+      this.wordsAll = makeTempJson
+    },
     topBack() { //上方返回
       console.log('back')
+    },
+    getLike() { //获取点赞的头像
+      let mcount = this.formInline.makeLikeCount
+      this.likeImg = returnImg(mcount, 0, 90) //从0-90随机拿出图片,服务器放置了90张
     },
     baseimg() { //根据图片的长宽来决定怎么显示图片
       // img_con_wapper_weight 宽图
       // img_con_wapper_zf 正方图
       // img_con_wapper_long 长图
       // img_con_wapper_more 多张图
-
-      let imgwid = this.bigImgInfo.wid
-      let imghei = this.bigImgInfo.hei
+      let imgwid = this.formInline.realImgsWid
+      let imghei = this.formInline.realImgsHei
       // 分割线
       // 长宽差距不到20的话，认为是正方形
       let makeCountBad
@@ -264,7 +214,7 @@ $backArea:#eeeeee; //点赞去背景色
 $greenFont:#69a44a; //绿色字体
 $returnMesBk:#f5f5f5; //下方回复区域背景色 灰色
 $returnMesBorder:#dcdcdc; //下方回复区域上边框颜色
-
+$backGrey:#ececec; //链接背景灰色
 $fontSizeCommon:40px;
 $fontSizeSmall:35px;
 
@@ -326,7 +276,6 @@ $fontSizeSmall:35px;
       position: absolute;
       top: 25px;
       left: 0;
-      // border:1px solid red;
       width: 86px;
       flex: 0 0 86px;
       height: 86px;
@@ -362,7 +311,7 @@ $fontSizeSmall:35px;
 
       .inner_time_line {
         color: $greyFont;
-        margin-right: 38px;
+        margin-right: 20px;
       }
     }
 
@@ -370,12 +319,10 @@ $fontSizeSmall:35px;
       margin-bottom: 0;
     }
 
-    // background-color: red;
     .word_img_left {
       width: 86px;
       height: 86px;
       margin-right: 25px;
-      border: 1px solid red;
       display: inline-block;
     }
   }
@@ -400,7 +347,6 @@ $fontSizeSmall:35px;
       .make_bad_header_img {
         width: 86px;
         height: 86px;
-        border: 1px solid red;
         display: inline-block;
         margin-right: 15px;
         margin-bottom: 15px;
@@ -416,7 +362,6 @@ $fontSizeSmall:35px;
         flex: 0 0 86px;
         height: 86px;
         // display: inline-block;
-        // border: 1px solid red;
 
         img {
           width: 36px;
@@ -447,7 +392,6 @@ $fontSizeSmall:35px;
     padding: 28px;
     background-color: #fff;
     // height: 100%;
-    border: 1px solid red;
 
     .imgandCon_wapper {
       .rig_concent {
@@ -455,15 +399,44 @@ $fontSizeSmall:35px;
         font-size: $fontSizeCommon;
       }
 
+      .type_link {
+        width: 770px;
+        height: 183px;
+        background-color: $backGrey;
+        box-sizing: border-box;
+        padding: 16px;
+        margin-bottom: 20px;
+
+        .type_link_inner_left {
+          display: inline-block;
+          width: 150px;
+          height: 150px;
+        }
+
+        .type_link_inner_right {
+          margin-left: 24px;
+          font-size: $fontSizeCommon;
+          color: #333;
+          width: 480px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
       .time_line {
         color: $greyFont;
         margin-top: 16px;
+        position: relative;
         font-size: $fontSizeSmall;
 
         img {
           width: 60px;
           height: 50px;
+          // margin-left:260px;
+          // right: -230px;
           float: right;
+
         }
 
         .make_del {
@@ -513,7 +486,6 @@ $fontSizeSmall:35px;
       .img_con_wapper_zf,
       .img_con_wapper_more_3,
       .img_con_wapper_more {
-        border: 2px solid red;
         margin-bottom: 25px;
 
         img {

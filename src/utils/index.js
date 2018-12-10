@@ -38,9 +38,46 @@ export function GetDateAndHourStr(minAgo, randomAgo, baseTime) { // 将后台传
   }
   return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute + ':' + seconds
 }
+export function GetDateDel(baseTime, count) { //评论区的递加时间
+  // baseTime传来的基础时间
+  // count根据这个数字去递加时间
+  var dd = baseTime ? new Date(baseTime) : new Date()
+  var y = dd.getFullYear()
+  var m = dd.getMonth() + 1
+  var d = dd.getDate()
+  var hour = dd.getHours()
+  var minute = dd.getMinutes()
+  var seconds = dd.getSeconds()
+  if (m < 10) {
+    m = '0' + m
+  }
+  if (d < 10) {
+    d = '0' + d
+  }
+  // 分钟计算
+  if (count) {
+    minute = minute + count
+    if (minute > 60) {
+      hour += 1
+      minute = minute - 60
+    }
+  }
+  // 分钟计算end
+  if (hour < 10) {
+    hour = '0' + hour
+  }
+  if (minute < 10) {
+    minute = '0' + minute
+  }
+  // 秒
+  seconds = Math.floor(Math.random() * 60 + 1)
+  if (seconds < 10) {
+    seconds = '0' + seconds
+  }
+  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute + ':' + seconds
+}
 export function GetDateAndHourMake(data) {
   var dd = data ? data : new Date()
-  console.log(dd)
   var y = dd.getFullYear()
   var m = dd.getMonth() + 1
   var d = dd.getDate()

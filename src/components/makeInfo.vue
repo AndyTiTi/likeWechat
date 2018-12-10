@@ -36,7 +36,7 @@
       <!-- 内容情况下 -->
       <template v-if="formInline.contentStyle==='内容'">
         <!-- 内容 -->
-        <mt-field label="朋友圈内容" placeholder="" v-model="formInline.realContent" placeholder="这是假的朋友圈"></mt-field>
+        <mt-field label="朋友圈内容" placeholder="" v-model="formInline.realContent" placeholder="朋友圈文字内容"></mt-field>
         <!-- 上传图片 -->
         <mt-field disabled label="朋友圈图片" placeholder="" v-model="badInp" placeholder="">
           <span v-for="(item,index) in formInline.realImgs" v-if="formInline.realImgs.length>0" class="inner_img_header common_back" @click="uploadBtnOne('inpTwo')" :style="{backgroundImage:'url('+item+')'}"></span>
@@ -59,7 +59,7 @@
       </template>
       <!-- 链接情况下 end -->
       <!-- 时间 -->
-      <!-- <mt-field label="生日" placeholder="请输入生日" type="date" v-model="birthday"></mt-field> -->
+      <mt-field label="地点" placeholder="请输入地点" v-model="formInline.localtion"></mt-field>
       <mt-field label="选择发表时间" v-model="formInline.sendTime" placeholder="" disabled>
         <mt-button size="small" type="default" @click="choseTime">选择时间</mt-button>
       </mt-field>
@@ -79,11 +79,17 @@
         <mt-button type="primary" size="small" @click="postForm">生成</mt-button>
         <mt-button size="small" @click="delForm">清空</mt-button>
       </div>
+      <!-- 页脚组件 -->
+      <comm-bottom></comm-bottom>
+      <!-- 不会出现的img标签，用来读取图片的宽高 -->
+      <img :src="formInline.badImg_src" ref="getImg_src" style="display: none;" />
     </div>
-  </div>
+    </div>
 </template>
 <script>
+import commBottom from '@/components/commonBottom'
 import "@/styles/makeInfo.scss"
+import { returnImg } from "@/utils/makeJson.js"
 var _this
 
 import {
@@ -95,20 +101,27 @@ import {
 } from '@/utils'
 export default {
   // name: 'List',
+  components: {
+    commBottom
+  },
   data() {
     return {
       badInp: '', //没用的表单信息
       startDate: new Date(),
       formInline: { //表单信息
+        badImg_src: '', //用来读取图片信息的
         nickName: '', //昵称
         yourHeaderImg: '', //头像
         contentStyle: '链接', //朋友圈形式(内容、链接)
         realContent: '', //朋友圈内容
+        localtion: '', //地点
         realImgs: [], //朋友圈的图片们
+        realImgsWid: '', //朋友圈的图片的宽
+        realImgsHei: '', //朋友圈的图片的高
         smallImg: '', // 链接缩略图
         smallContent: '', // 链接内容
         sendTime: GetDateAndHourStr(), // 发送时间
-        sendTimeNoformat: new Date(), // 发送时间(未格式化)
+        sendTimeNoformat: new Date().getTime(), // 发送时间(未格式化)
         makeLikeCount: 2, //点赞个数
         makeContentCount: 10, //评论个数
         makeContent: '', //评论内容
@@ -129,6 +142,7 @@ export default {
       // type区分数组还是字符串
       var file = e.target.files[0];
       console.log(file)
+      // console.log(file.height)
       if (!/image\/\w+/.test(file.type)) {
         alert("请确保文件为图像类型");
         return false;
@@ -136,13 +150,11 @@ export default {
       var reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = function(e) {
-        // 将上传图片转为base64放到local
-        // if (type === 'arr') {
-        //   if (localStorage.getItem(localStoKey) !== null && localStorage.getItem(localStoKey) !== "") {
+        if (giveWho === 'realImgs') { //如果是朋友圈上传的图片,就拿到用户上传的图片信息
+          _this.formInline.badImg_src = this.result
 
-        //   }
-        // }
-        // localStorage.setItem(localStoKey, this.result);
+        }
+
         if (ifForm === 'form') { //将图片赋值给本地data的数据，区分下是否是form表单里的数据
           if (type === 'arr') {
             _this.formInline[giveWho].push(this.result)
@@ -155,7 +167,7 @@ export default {
       }
     },
     handleConfirm(data) { //时间的确定事件
-      this.sendTimeNoformat = data //未格式化的时间
+      this.formInline.sendTimeNoformat = data //未格式化的时间
       let date = GetDateAndHourMake(data)
       this.formInline.sendTime = date
     },
@@ -173,8 +185,12 @@ export default {
       console.log(this.formInline.contentStyle)
     },
     postForm() { //表单提交
-      console.log(this.formInline)
+      // 拿到朋友圈图片的宽高
+      this.formInline.realImgsWid = this.$refs.getImg_src.width
+      this.formInline.realImgsHei = this.$refs.getImg_src.height
       setLocal('makeJson', this.formInline)
+      this.$router.push('/detail')
+      // returnImg(5, 0, 90)
     },
     delForm() { //清空表单和localStorage
       let _that = this
@@ -198,7 +214,7 @@ export default {
   },
   watch: {
     "formInline.contentStyle"() {
-      console.log(this.formInline.contentStyle)
+      // console.log(this.formInline.contentStyle)
     }
   }
 };
@@ -217,7 +233,9 @@ $fontSizeSmall:35px;
 
 .makeInfo_wapper {
   padding: 20px;
+  overflow: auto;
   position: absolute;
+  padding-bottom: 50px;
   left: 0;
   right: 0;
   top: 0;
@@ -225,7 +243,7 @@ $fontSizeSmall:35px;
   background-image: url('../assets/maldives_wedding-wallpaper-1280x800.jpg');
 
   .inner_make_btn {
-    margin-top: 20px;
+    margin-top: 30px;
     text-align: center;
   }
 
