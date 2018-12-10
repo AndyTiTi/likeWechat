@@ -166,7 +166,7 @@ export default {
       this.wordsAll = makeTempJson
     },
     topBack() { //上方返回
-      console.log('back')
+      this.$router.push('/')
     },
     getLike() { //获取点赞的头像
       let mcount = this.formInline.makeLikeCount
@@ -287,7 +287,7 @@ $fontSizeSmall:35px;
     }
 
     .one_word {
-      margin-bottom: 50px;
+      margin-bottom: 35px;
 
       .word_time_nick {
         width: 89%;
@@ -425,6 +425,8 @@ $fontSizeSmall:35px;
       }
 
       .time_line {
+      
+        width: 770px;
         color: $greyFont;
         margin-top: 16px;
         position: relative;
