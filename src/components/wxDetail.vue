@@ -18,17 +18,19 @@
       </div>
       <!-- 链接形式 end-->
       <!-- 内容形式 -->
-      <div v-else class="pyq_conent">{{formInline.realContent}}</div>
-      <!-- 图片等 -->
-      <!-- 多张图 -->
-      <template v-if="formInline.realImgs.length>1">
-        <div class="xt_flex xt_allow_wrap">
-          <div v-for="(item,index) in formInline.realImgs" class="common_back" :class="formInline.realImgs.length%3===0||formInline.realImgs.length>2 ? 'img_con_wapper_more_3' : 'img_con_wapper_more'" :style="{backgroundImage:'url('+item+')'}"></div>
+      <template v-else>
+        <div class="pyq_conent">{{formInline.realContent}}</div>
+        <!-- 图片等 -->
+        <!-- 多张图 -->
+        <template v-if="formInline.realImgs.length>1">
+          <div class="xt_flex xt_allow_wrap">
+            <div v-for="(item,index) in formInline.realImgs" class="common_back" :class="formInline.realImgs.length%3===0||formInline.realImgs.length>2 ? 'img_con_wapper_more_3' : 'img_con_wapper_more'" :style="{backgroundImage:'url('+item+')'}"></div>
+          </div>
+        </template>
+        <!-- 一张图 -->
+        <div v-else class="common_back" :class="baseImgSizeClass" :style="{backgroundImage:'url('+formInline.realImgs[0]+')'}">
         </div>
       </template>
-      <!-- 一张图 -->
-      <div v-else class="common_back" :class="baseImgSizeClass" :style="{backgroundImage:'url('+formInline.realImgs[0]+')'}">
-      </div>
       <!-- 内容形式 end-->
       <!-- 地点 -->
       <div v-if="formInline.localtion!=''" class="yourway">{{formInline.localtion}}</div>
