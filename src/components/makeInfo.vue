@@ -66,7 +66,7 @@
       <mt-field label="选择发表时间" v-model="formInline.sendTime" placeholder="" disabled>
         <mt-button size="small" type="default" @click="choseTime">选择时间</mt-button>
       </mt-field>
-      <mt-datetime-picker @confirm="handleConfirm" type="datetime" ref="picker" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" v-model="startDate"></mt-datetime-picker>
+      <mt-datetime-picker @confirm="handleConfirm" type="datetime" ref="picker" date-format="{value} 日" v-model="startDate"></mt-datetime-picker>
       <!-- 时间end -->
       <!-- 点赞个数设置 -->
       <mt-field label="点赞个数" placeholder="只能是数字哦" v-model="formInline.makeLikeCount">
@@ -182,6 +182,7 @@ export default {
     handleConfirm(data) { //时间的确定事件
       this.formInline.sendTimeNoformat = data //未格式化的时间
       let date = GetDateAndHourMake(data)
+      console.log(date)
       this.formInline.sendTime = date
     },
     choseTime() { //选择时间

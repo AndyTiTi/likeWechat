@@ -32,11 +32,12 @@ export function GetDateAndHourStr(minAgo, randomAgo, baseTime) { // 将后台传
     minute = '0' + minute
   }
   // 秒
-  seconds = Math.floor(Math.random() * 60 + 1)
-  if (seconds < 10) {
-    seconds = '0' + seconds
-  }
-  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute + ':' + seconds
+  // seconds = Math.floor(Math.random() * 60 + 1)
+  // if (seconds < 10) {
+  //   seconds = '0' + seconds
+  // }
+  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute
+  // + ':' + seconds
 }
 export function GetDateDel(baseTime, count) { //评论区的递加时间
   // baseTime传来的基础时间
@@ -70,11 +71,12 @@ export function GetDateDel(baseTime, count) { //评论区的递加时间
     minute = '0' + minute
   }
   // 秒
-  seconds = Math.floor(Math.random() * 60 + 1)
-  if (seconds < 10) {
-    seconds = '0' + seconds
-  }
-  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute + ':' + seconds
+  // seconds = Math.floor(Math.random() * 60 + 1)
+  // if (seconds < 10) {
+  //   seconds = '0' + seconds
+  // }
+  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute
+  // + ':' + seconds
 }
 export function GetDateAndHourMake(data) {
   var dd = data ? data : new Date()
@@ -90,17 +92,18 @@ export function GetDateAndHourMake(data) {
   if (d < 10) {
     d = '0' + d
   }
-  if (minute < 0) {
-    minute = 60 + minute
-    hour = hour - 1
+  if (minute < 10) {
+    minute = '0' + minute
+    // hour = hour - 1
   }
   if (hour < 10) {
     hour = '0' + hour
   }
-  if (seconds < 10) {
-    seconds = '0' + seconds
-  }
-  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute + ':' + seconds
+  // if (seconds < 10) {
+  //   seconds = '0' + seconds
+  // }
+  return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute
+  // + ':' + seconds
 }
 export function makeRandomCount() {
   return Math.floor(Math.random() * 20 + 1)
