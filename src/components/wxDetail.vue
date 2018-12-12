@@ -52,11 +52,11 @@
         </span>
       </div>
       <!-- 点赞和评论区 -->
-      <div class="like_say_words">
+      <div class="like_say_words" v-if="likeImg.length>0||wordsAll.length>0">
         <!-- 小三角 -->
         <span class="triangle_border_up"></span>
         <!-- 点赞区 -->
-        <div class="make_like_wapper xt_flex ">
+        <div class="make_like_wapper xt_flex " v-if="likeImg.length>0">
           <!-- 左边的点赞icon -->
           <div class="left_heart_icon xt_flex xt_flex_der xt_flex_row_center">
             <img src="../assets/wx_like_03.png" height="30" width="38">
@@ -69,7 +69,7 @@
         </div>
         <!-- 点赞区end -->
         <!-- 评论区 -->
-        <div class="make_words">
+        <div class="make_words" v-if="wordsAll.length>0">
           <!-- 评论的icon -->
           <div class="left_pl_icon xt_flex xt_flex_der xt_flex_row_center">
             <img src="../assets/wx_plicon_03.png" height="30" width="38">
