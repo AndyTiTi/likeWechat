@@ -152,6 +152,7 @@ export default {
       if (getLocal('makeJson')) { //如果local有数据
         this.formInline = getLocal('makeJson')
         console.log(this.formInline)
+        // document.write(this.formInline)
         if (this.formInline.realImgs.length === 1) { //只有一张
           this.baseimg() //根据图片的长宽来决定怎么显示图片
         }
@@ -164,10 +165,9 @@ export default {
       //总共要生成多少条评论
       let howCount
       // 设置的评论类型是重复还是自定义
-      let plType = this.formInline.plType
+      var plType = this.formInline.plType ? this.formInline.plType : '重复'
       // 自定义评论
-      let realPl = this.formInline.makeSelfPl.split("\n")
-
+      var realPl = this.formInline.makeSelfPl.split("\n")
       if (plType === '重复') {
         howCount = this.formInline.makeContentCount
       } else {
@@ -180,13 +180,24 @@ export default {
       let getTimeNum = returnNoreapt(howCount, 0, 30) //生成0-30的随机数(时间)
       let makeTempJson = []
       for (var i = 0; i < howCount; i++) {
-        makeTempJson.push({
-          img: getImgHeader[i],
-          nickName: getNick[i],
-          word: plType === '重复' ? _that.formInline.makeContent : realPl[i],
-          time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
+        if (plType === '重复') {
+          makeTempJson.push({
+            img: getImgHeader[i],
+            nickName: getNick[i],
+            word: _that.formInline.makeContent,
+            time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
 
-        })
+          })
+        } else {
+          makeTempJson.push({
+            img: getImgHeader[i],
+            nickName: getNick[i],
+            word: realPl[i],
+            time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
+
+          })
+        }
+
       }
       this.wordsAll = makeTempJson
     },
@@ -258,7 +269,7 @@ $fontSizeSmall:35px;
   bottom: 0;
 
   .make_Dialog_wapper {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 0;

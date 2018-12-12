@@ -252,6 +252,7 @@ export default {
           _that.formInline[item] = ''
         }
       })
+      this.clearRealImgs() //上传的图片清空
       localStorage.setItem('makeJson', '')
 
     },
@@ -285,7 +286,7 @@ $fontGold:#F5A623; //金色
 .makeInfo_wapper {
   padding: 20px;
   overflow: auto;
-  position: absolute;
+  position: fixed;
   padding-bottom: 50px;
   left: 0;
   right: 0;
