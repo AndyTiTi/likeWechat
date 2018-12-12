@@ -1,5 +1,14 @@
 <template>
   <div class="detail_wapper">
+    <!-- 告诉用户怎么返回遮罩 -->
+    <div v-if="showDiaTip" class="make_Dialog_wapper" @click="closeDialog">
+      点击上方"详情"行返回设置页
+      <br />
+      <br />
+      <br />
+      <mt-button type="primary" size="small" @click="closeDialog">我知道了</mt-button>
+    </div>
+    <!-- 告诉用户怎么返回遮罩 end-->
     <!-- 上方返回 -->
     <img @click="topBack" class="topGoBack" src="../assets/bkreturn_02.png" height="136" width="960">
     <!-- 中间内容 -->
@@ -104,11 +113,14 @@ export default {
   data() {
     return {
       show: false,
+      showDiaTip: true, //弹窗提示
       formInline: { //表单信息
         nickName: 'ant', //昵称
         yourHeaderImg: '', //头像
+        makeSelfPl: '', //存储自定义评论
         contentStyle: '链接', //朋友圈形式(内容、链接)
         realContent: '', //朋友圈内容
+        plType: '重复', //评论的类型(重复、自定义)
         realImgs: ['https://an888.net/image/1988-01.jpg'], //朋友圈的图片们
         realImgsWid: '', //朋友圈的图片的宽
         realImgsHei: '', //朋友圈的图片的高
@@ -149,7 +161,18 @@ export default {
 
     },
     getContent() { //获取评论内容
-      let howCount = this.formInline.makeContentCount //总共要生成多少条评论
+      //总共要生成多少条评论
+      let howCount
+      // 设置的评论类型是重复还是自定义
+      let plType = this.formInline.plType
+      // 自定义评论
+      let realPl = this.formInline.makeSelfPl.split("\n")
+
+      if (plType === '重复') {
+        howCount = this.formInline.makeContentCount
+      } else {
+        howCount = realPl.length
+      }
       let _that = this
 
       let getNick = returnName(howCount) //拿到对应数量的昵称
@@ -160,7 +183,7 @@ export default {
         makeTempJson.push({
           img: getImgHeader[i],
           nickName: getNick[i],
-          word: _that.formInline.makeContent,
+          word: plType === '重复' ? _that.formInline.makeContent : realPl[i],
           time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
 
         })
@@ -169,6 +192,9 @@ export default {
     },
     jumpUrl() {
       window.href = this.formInline.smallImgLink
+    },
+    closeDialog() { //遮罩提示 显示控制
+      this.showDiaTip = false
     },
     topBack() { //上方返回
       this.$router.push('/')
@@ -230,6 +256,21 @@ $fontSizeSmall:35px;
   right: 0;
   top: 0;
   bottom: 0;
+
+  .make_Dialog_wapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    color: #fff;
+    z-index: 999;
+    box-sizing: border-box;
+    padding-top: 160px;
+    background-color: rgba(0, 0, 0, .3)
+  }
+
   // padding-bottom:127px;
 
   .wx_bottom_return_mes {

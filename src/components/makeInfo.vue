@@ -4,6 +4,9 @@
     <input accept="image/*" type="file" ref="inpOne" @change="jsReadFiles($event,'yourHeaderImg','yourHeaderImg')" style="display: none;" />ss
     <el-button @click="uploadBtnOne" size="small">上传他的头像</el-button> -->
     <div class="inner_index_content">
+      <common-top-title>
+        <span slot="mySlot">朋友圈生成器</span>
+      </common-top-title>
       <!-- 昵称 -->
       <mt-field label="微信昵称" placeholder="请输入微信昵称" v-model="formInline.nickName"></mt-field>
       <!-- 头像 -->
@@ -71,16 +74,37 @@
       <!-- 点赞个数设置 -->
       <mt-field label="点赞个数" placeholder="只能是数字哦" v-model="formInline.makeLikeCount">
       </mt-field>
-      <!-- 评论个数 -->
-      <mt-field label="评论个数" placeholder="要评论的个数" v-model="formInline.makeContentCount">
+      <!-- 评论自定义还是重复生成 -->
+      <mt-field disabled label="评论形式(自定义、重复)" placeholder="" v-model="badInp">
+        <!-- 内容 -->
+        <div class="inner_no_padding">
+          <mt-radio title="" v-model="formInline.plType" :options="['重复','自定义']">
+          </mt-radio>
+        </div>
       </mt-field>
-      <!-- 评论内容 -->
-      <mt-field label="评论内容" placeholder="重复评论的内容" v-model="formInline.makeContent">
-      </mt-field>
+      <!-- 评论自定义还是重复生成 end-->
+      <!-- 评论重复的情况下 -->
+      <template v-if="formInline.plType==='重复'">
+        <!-- 评论个数 -->
+        <mt-field label="评论个数" placeholder="要评论的个数" v-model="formInline.makeContentCount">
+        </mt-field>
+        <!-- 评论内容 -->
+        <mt-field label="评论内容" placeholder="重复评论的内容" v-model="formInline.makeContent">
+        </mt-field>
+      </template>
+      <!-- 评论重复的情况下 end-->
+      <!-- 评论自定义情况下 -->
+      <template v-else>
+        <mt-field type="textarea" rows="4" label="输入你的评论" placeholder="填写评论,每条一行,回车换行" v-model="formInline.makeSelfPl"></mt-field>
+        <!--  <div class="newAdd_pl_wapper">
+          <mt-button size="small" @click="addNewPl">新增评论</mt-button>
+        </div> -->
+      </template>
+      <!-- 评论自定义情况下 end-->
       <!-- 生成按钮 -->
       <div class="inner_make_btn">
         <mt-button type="primary" size="small" @click="postForm">生成</mt-button>
-        <mt-button size="small" @click="delForm">清空</mt-button>
+        <mt-button size="small" type="danger" @click="delForm">清空</mt-button>
       </div>
       <div class="some_tips">
         <div>提示：如果点击“生成”按钮，页面无反应，基本原因是图片太大，请点击“清空”按钮后,
@@ -97,6 +121,8 @@
 </template>
 <script>
 import commBottom from '@/components/commonBottom'
+import commonTopTitle from '@/components/commonTopTitle'
+
 import "@/styles/makeInfo.scss"
 import { returnImg } from "@/utils/makeJson.js"
 var _this
@@ -111,19 +137,23 @@ import {
 export default {
   // name: 'List',
   components: {
-    commBottom
+    commBottom,
+    commonTopTitle
   },
   data() {
     return {
       badInp: '', //没用的表单信息
+      makeSelfArrPl: [''], //循环生成自定义评论
       startDate: new Date(),
       formInline: { //表单信息
         badImg_src: '', //用来读取图片信息的
         nickName: '', //昵称
+        makeSelfPl: '', //存储自定义评论
         yourHeaderImg: '', //头像
-        contentStyle: '链接', //朋友圈形式(内容、链接)
+        contentStyle: '内容', //朋友圈形式(内容、链接)
         realContent: '', //朋友圈内容
         localtion: '', //地点
+        plType: '重复', //评论的类型(重复、自定义)
         realImgs: [], //朋友圈的图片们
         realImgsWid: '', //朋友圈的图片的宽
         realImgsHei: '', //朋友圈的图片的高
@@ -195,6 +225,12 @@ export default {
     chenckTime() { //选择时间
       this.$refs.picker.open()
     },
+    addNewPl() { //新增评论
+      this.makeSelfArrPl.push('')
+    },
+    delNowContent(index) { //删除当前评论
+      this.makeSelfArrPl.splice(index, 1)
+    },
     contentChnangeStyle() { //朋友圈内容形式的变化
       console.log(this.formInline.contentStyle)
     },
@@ -256,6 +292,11 @@ $fontGold:#F5A623; //金色
   top: 0;
   bottom: 0;
   background-image: url('../assets/maldives_wedding-wallpaper-1280x800.jpg');
+
+  .newAdd_pl_wapper {
+    text-align: center;
+    margin-top: 30px;
+  }
 
   .some_tips {
     text-align: center;
