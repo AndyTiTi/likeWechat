@@ -180,7 +180,7 @@ export default {
       let getTimeNum = returnNoreapt(howCount, 0, 30) //生成0-30的随机数(时间)
       let makeTempJson = []
       for (var i = 0; i < howCount; i++) {
-        if (plType === '重复') {
+        if (plType === '重复') { //评论内容是重复，直接渲染重复的话语
           makeTempJson.push({
             img: getImgHeader[i],
             nickName: getNick[i],
@@ -188,18 +188,22 @@ export default {
             time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
 
           })
-        } else {
-          makeTempJson.push({
-            img: getImgHeader[i],
-            nickName: getNick[i],
-            word: realPl[i],
-            time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
+        } else { //自定义评论，分别渲染评论
+          if (realPl.length > 0 && realPl[0] !== "") { //自定义评论不为空
+            makeTempJson.push({
+              img: getImgHeader[i],
+              nickName: getNick[i],
+              word: realPl[i],
+              time: GetDateDel(_that.formInline.sendTimeNoformat, getTimeNum[i])
 
-          })
+            })
+          }
+
         }
 
       }
       this.wordsAll = makeTempJson
+      console.log(this.wordsAll)
     },
     jumpUrl() {
       window.href = this.formInline.smallImgLink
