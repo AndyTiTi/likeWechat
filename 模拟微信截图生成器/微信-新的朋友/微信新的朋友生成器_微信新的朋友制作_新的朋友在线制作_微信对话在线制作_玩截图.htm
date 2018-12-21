@@ -246,9 +246,9 @@ function shotCb() {
         	console.log(this.height)
         	// return
             //生成base64图片数据
-            var dataUrl = canvas.toDataURL()
-            // var dataUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            // window.location.href = dataUrl; // 下载图片
+            // var dataUrl = canvas.toDataURL()
+            var dataUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            window.location.href = dataUrl; // 下载图片
 
             	// console.log(dataUrl)
             var newImg = document.createElement("img");

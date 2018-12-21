@@ -115,7 +115,7 @@ body:after {
   background-size: 100%;
   background-repeat: no-repeat;
   margin-bottom: .2rem;
-  margin-top: .3rem;
+  margin-top: 1rem;
 }
 
 #btn .cjBtn,
@@ -161,7 +161,7 @@ body:after {
 }
 
 .rule p {
-  font-size: 26px;
+  font-size: 32px;
   color: #fff;
   line-height: .38rem;
 }
@@ -211,7 +211,7 @@ body:after {
 }
 
 .name_wapper {
-  font-size: .15rem;
+  font-size: 32px;
   display: inline-block;
   font-weight: bold;
 }
@@ -248,17 +248,19 @@ body:after {
 }
 
 .setSome {
-  width: 90%;
+  width: 100%;
+  box-sizing: border-box;
   position: absolute;
-  top: 5%;
-  padding: .3rem;
-  background-color: rgba(0, 0, 0, .3);
+  top: 0;
+  border: 3px solid #fff;
+  padding: 10px;
+  background-color: #c12537;
   font-size: 26px;
   color: #fff;
 }
 
 .setSome * {
-  font-size: 30px !important;
+  font-size: 30px;
   color: #fff;
 
 
@@ -309,7 +311,7 @@ body:after {
 
 .makeAct {
   color: #333;
-  width: 50%;
+  width: 30%;
   display: block;
   padding: 10px 13px;
   background-color: #fff;
@@ -323,4 +325,11 @@ body:after {
   border-top-color: #e805f7;
   border-left-color: #0ad8f3;
   border-right-color: #0ad8f3;
+}
+
+.title {
+  font-weight: bold;
+  margin-top: 0px;
+  font-size: .5rem;
+  text-align: center;
 }
