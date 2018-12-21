@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>抽奖</title>
+    <script src="js/common.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/styleCJ.css" />
+    <script src="js/vue.js"></script>
+    <script src="js/jq.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="shanDeng" id="deng">
+            <div id="luck">
+                <!-- luck -->
+                <table style="border-spacing:.08rem .03rem;" class="table_wapper">
+                    <tr>
+                        <template v-for="(item,index) in tdArea.op1">
+                            <td class="luck-unit  xt_flex xt_flex_row_center xt_flex_der xt_shu" :class="item.className" :typep="item.type">
+                                <div class="bkimg_wapper" :style="{backgroundImage: 'url(' + item.bkImg + ')'}"></div>
+                                <span class="name_wapper">{{item.name}}</span>
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <template v-for="(item,index) in tdArea.op2">
+                            <td v-if="item.id&&item.id!==null" :class="item.className" :id="item.id" :typep="item.type">
+                            </td>
+                            <td v-else class="luck-unit  xt_flex xt_flex_row_center xt_flex_der xt_shu" :class="item.className" :typep="item.type">
+                                <div class="bkimg_wapper" :style="{backgroundImage: 'url(' + item.bkImg + ')'}"></div>
+                                <span class="name_wapper">{{item.name}}</span>
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <template v-for="(item,index) in tdArea.op3">
+                            <td class="luck-unit  xt_flex xt_flex_row_center xt_flex_der xt_shu" :class="item.className" :typep="item.type">
+                                <div class="bkimg_wapper" :style="{backgroundImage: 'url(' + item.bkImg + ')'}"></div>
+                                <span class="name_wapper">{{item.name}}</span>
+                            </td>
+                        </template>
+                    </tr>
+                </table>
+            </div><!-- luckEnd -->
+        </div>
+        <!-- 介绍 -->
+        <div class="ns_info" v-if="initInfo!==''">
+            <p>男朋友信息</p>
+            <span>姓名：</span><span>{{initInfo.name}}</span>
+            <span>身高: </span><span>{{initInfo.sheight}}</span>
+            <span>技能: </span><span>{{initInfo.jineng}}</span>
+        </div>
+        <!-- 规则 -->
+        <div class="rule">
+            <p @click="open">抽奖活动规则</p>
+            <p>1、请用力想出你的男神;</p>
+            <p>2、若想成功，请再试一下;</p>
+            <p>3、@你的男神，会大大提高中奖几率哦;</p>
+        </div>
+        <div class="play">
+            <span></span>
+            <div class="div">
+                <div id="demo" class="qimo8">
+                    <div class="qimo">
+                        <div id="demo1">
+                            <ul>
+                                <li>微博用户: 孔孔孔,获得彭于晏</li>
+                                <li>微博用户: 洗面奶是洗洁精,获得张艺兴</li>
+                                <li>微博用户: 二狗子,获得张艺兴</li>
+                                <li>微博用户: 爱吃火腿,获得如花</li>
+                                <li>微博用户: 鹿晗是那道光啊,获得鹿晗</li>
+                            </ul>
+                        </div>
+                        <div id="demo2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/index.js">
+</script>
+
+</html>
