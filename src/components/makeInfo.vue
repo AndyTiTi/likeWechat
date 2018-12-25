@@ -7,6 +7,24 @@
       <common-top-title>
         <span slot="mySlot">朋友圈生成器</span>
       </common-top-title>
+      <!-- 状态栏 -->
+      <mt-field disabled label="有无状态栏" placeholder="" v-model="badInp">
+        <!-- 内容 -->
+        <div class="inner_no_padding">
+          <mt-radio title="" v-model="formInline.hasZtl" :options="['有','无']">
+          </mt-radio>
+        </div>
+      </mt-field>
+      <!-- 状态栏-苹果/安卓 -->
+      <mt-field  disabled label="手机系统" placeholder="" v-model="badInp">
+        <!-- 内容 -->
+        <div class="inner_no_padding">
+          <mt-radio title="" v-model="formInline.ztlSystem" :options="['安卓','苹果']">
+          </mt-radio>
+        </div>
+      </mt-field>
+      <!-- 状态栏-苹果 end-->
+      <!-- 状态栏 end -->
       <!-- 昵称 -->
       <mt-field label="微信昵称" placeholder="请输入微信昵称" v-model="formInline.nickName"></mt-field>
       <!-- 头像 -->
@@ -146,6 +164,8 @@ export default {
       makeSelfArrPl: [''], //循环生成自定义评论
       startDate: new Date(),
       formInline: { //表单信息
+        hasZtl: '有', //有无状态栏
+        ztlSystem: '安卓', //操作系统
         badImg_src: '', //用来读取图片信息的
         nickName: '', //昵称
         makeSelfPl: '', //存储自定义评论

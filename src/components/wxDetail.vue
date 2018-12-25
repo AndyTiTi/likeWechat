@@ -1,5 +1,5 @@
 <template>
-  <div class="detail_wapper">
+  <div class="detail_wapper" id="detail_wapper" ref="cutScreen">
     <!-- 告诉用户怎么返回遮罩 -->
     <div v-if="showDiaTip" class="make_Dialog_wapper" @click="closeDialog">
       点击上方"详情"行返回设置页
@@ -10,102 +10,125 @@
     </div>
     <!-- 告诉用户怎么返回遮罩 end-->
     <!-- 上方返回 -->
-    <img @click="topBack" class="topGoBack" src="../assets/bkreturn_02.png" height="136" width="960">
-    <!-- 中间内容 -->
-    <div class="concent_wapper">
-      <!-- 头像和内容的盒子 -->
-      <div class="imgandCon_wapper xt_flex ">
-        <span class="left_img">
+    <div class="topGoBack">
+      <template v-if="formInline.hasZtl==='有'">
+        <!-- 上方状态栏 -->
+        <div class="top_ztl  common_back">
+          <!-- 安卓 -->
+          <template v-if="formInline.ztlSystem==='安卓'">
+            <img src="../assets/az-ztl.png" height="44" width="750">
+            <span class="inner_resetTime az-time">{{nowTime}}</span>
+          </template>
+          <!-- ios -->
+          <template v-else>
+            <img src="../assets/ios-ztl.png" height="44" width="750">
+            <span class="inner_resetTime ios-time">{{nowTime}}</span>
+          </template>
+        </div>
+        <!-- 上方状态栏 end -->
+      </template>
+      <!-- 安卓的返回 -->
+      <img v-if="formInline.ztlSystem==='安卓'" @click="topBack" src="../assets/az-top-back_02.png" height="128" width="960">
+      <!-- ios的返回 -->
+      <img  v-else @click="topBack" src="../assets/ios-top-back_02.png" height="84" width="750">
+    </div>
+      <!-- 中间内容 -->
+      <div class="concent_wapper" :class="marginTopClass">
+        <!-- 头像和内容的盒子 -->
+        <div class="imgandCon_wapper xt_flex ">
+          <span class="left_img">
           <span class="img_wapper_span common_back" :style="{backgroundImage:'url('+formInline.yourHeaderImg+')'}"></span>
-        </span>
-        <span class="rig_concent">
+          </span>
+          <span class="rig_concent">
           <div class="nickName">{{formInline.nickName}}</div>
           <!-- 链接形式 -->
           <div @click="jumpUrl" v-if="formInline.contentStyle==='链接'" class="type_link xt_flex xt_flex_der">
             <span class="type_link_inner_left common_back" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
-        <div class="type_link_inner_right">{{formInline.smallContent}}</div>
-      </div>
-      <!-- 链接形式 end-->
-      <!-- 内容形式 -->
-      <template v-else>
-        <div class="pyq_conent">{{formInline.realContent}}</div>
-        <!-- 图片等 -->
-        <!-- 多张图 -->
-        <template v-if="formInline.realImgs.length>1">
-          <div class="xt_flex xt_allow_wrap">
-            <div v-for="(item,index) in formInline.realImgs" class="common_back" :class="formInline.realImgs.length%3===0||formInline.realImgs.length>2 ? 'img_con_wapper_more_3' : 'img_con_wapper_more'" :style="{backgroundImage:'url('+item+')'}"></div>
+          <div class="type_link_inner_right">{{formInline.smallContent}}</div>
+        </div>
+        <!-- 链接形式 end-->
+        <!-- 内容形式 -->
+        <template v-else>
+          <div class="pyq_conent">{{formInline.realContent}}</div>
+          <!-- 图片等 -->
+          <!-- 多张图 -->
+          <template v-if="formInline.realImgs.length>1">
+            <div class="xt_flex xt_allow_wrap">
+              <div v-for="(item,index) in formInline.realImgs" class="common_back" :class="formInline.realImgs.length%3===0||formInline.realImgs.length>2 ? 'img_con_wapper_more_3' : 'img_con_wapper_more'" :style="{backgroundImage:'url('+item+')'}"></div>
+            </div>
+          </template>
+          <!-- 一张图 -->
+          <div v-else class="common_back" :class="baseImgSizeClass" :style="{backgroundImage:'url('+formInline.realImgs[0]+')'}">
           </div>
         </template>
-        <!-- 一张图 -->
-        <div v-else class="common_back" :class="baseImgSizeClass" :style="{backgroundImage:'url('+formInline.realImgs[0]+')'}">
+        <!-- 内容形式 end-->
+        <!-- 地点 -->
+        <div v-if="formInline.localtion!=''" class="yourway">{{formInline.localtion}}</div>
+        <!-- 时间 -->
+        <div class="time_line">
+          {{formInline.sendTime}}
+          <span class="make_del">删除</span>
+          <!-- <img src="../assets/wx_pl_03.png" height="46" width="65"> -->
+          <img src="../assets/new-pl.png" height="51" width="88">
+          </div>
+          </span>
         </div>
-      </template>
-      <!-- 内容形式 end-->
-      <!-- 地点 -->
-      <div v-if="formInline.localtion!=''" class="yourway">{{formInline.localtion}}</div>
-      <!-- 时间 -->
-      <div class="time_line">
-        {{formInline.sendTime}}
-        <span class="make_del">删除</span>
-        <img src="../assets/wx_pl_03.png" height="46" width="65">
+        <!-- 点赞和评论区 -->
+        <div class="like_say_words" v-if="likeImg.length>0||wordsAll.length>0">
+          <!-- 小三角 -->
+          <span class="triangle_border_up"></span>
+          <!-- 点赞区 -->
+          <div class="make_like_wapper xt_flex " v-if="likeImg.length>0">
+            <!-- 左边的点赞icon -->
+            <div class="left_heart_icon xt_flex xt_flex_der xt_flex_row_center">
+              <img src="../assets/wx_like_03.png" height="30" width="38">
           </div>
-        </span>
-      </div>
-      <!-- 点赞和评论区 -->
-      <div class="like_say_words" v-if="likeImg.length>0||wordsAll.length>0">
-        <!-- 小三角 -->
-        <span class="triangle_border_up"></span>
-        <!-- 点赞区 -->
-        <div class="make_like_wapper xt_flex " v-if="likeImg.length>0">
-          <!-- 左边的点赞icon -->
-          <div class="left_heart_icon xt_flex xt_flex_der xt_flex_row_center">
-            <img src="../assets/wx_like_03.png" height="30" width="38">
-          </div>
-            <!-- 右边的渲染头像 -->
-            <div class="xt_flex xt_allow_wrap">
-              <div v-for="(item,index) in likeImg" :style="{backgroundImage: 'url('+item+')'}" class="make_bad_header_img common_back "></div>
+              <!-- 右边的渲染头像 -->
+              <div class="xt_flex xt_allow_wrap">
+                <div v-for="(item,index) in likeImg" :style="{backgroundImage: 'url('+item+')'}" class="make_bad_header_img common_back "></div>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- 点赞区end -->
-        <!-- 评论区 -->
-        <div class="make_words" v-if="wordsAll.length>0">
-          <!-- 评论的icon -->
-          <div class="left_pl_icon xt_flex xt_flex_der xt_flex_row_center">
-            <img src="../assets/wx_plicon_03.png" height="30" width="38">
+          <!-- 点赞区end -->
+          <!-- 评论区 -->
+          <div class="make_words" v-if="wordsAll.length>0">
+            <!-- 评论的icon -->
+            <div class="left_pl_icon xt_flex xt_flex_der xt_flex_row_center">
+              <img src="../assets/wx_plicon_03.png" height="30" width="38">
           </div>
-            <template v-for="(item,index) in wordsAll">
-              <div class="one_word xt_flex" :class="index===wordsAll.length-1 ? 'one_word_no_bottom': ''">
-                <!-- 左边头像 -->
-                <div class="word_img_left common_back" :style="{backgroundImage:'url('+item.img+')'}"></div>
-                <!-- 右边内容 -->
-                <div class="word_time_nick">
-                  <!-- 昵称和时间行 -->
-                  <div class="word_inline_wapper xt_flex xt_flex_row_bettwen">
-                    <span class="nickName_inner">{{item.nickName}}</span>
-                    <span class="inner_time_line">{{item.time}}</span>
+              <template v-for="(item,index) in wordsAll">
+                <div class="one_word xt_flex" :class="index===wordsAll.length-1 ? 'one_word_no_bottom': ''">
+                  <!-- 左边头像 -->
+                  <div class="word_img_left common_back" :style="{backgroundImage:'url('+item.img+')'}"></div>
+                  <!-- 右边内容 -->
+                  <div class="word_time_nick">
+                    <!-- 昵称和时间行 -->
+                    <div class="word_inline_wapper xt_flex xt_flex_row_bettwen">
+                      <span class="nickName_inner">{{item.nickName}}</span>
+                      <span class="inner_time_line">{{item.time}}</span>
+                    </div>
+                    <!-- 内容 -->
+                    <div class="friend_words">{{item.word}}</div>
                   </div>
-                  <!-- 内容 -->
-                  <div class="friend_words">{{item.word}}</div>
                 </div>
-              </div>
-            </template>
+              </template>
+            </div>
+            <!-- 评论区end -->
           </div>
-          <!-- 评论区end -->
-        </div>
-        <!-- 中间内容 end -->
-        <!-- 底部回复 -->
-        <div class="wx_bottom_return_mes">
-          <!-- 输入框 -->
-          <input class="makeBadInp_wapper" type="text" name="" placeholder="评论" v-model="makeBadInp">
-          <!-- 发送图片 -->
-          <img class="bottom_btn_img" src="../assets/pl_bottom_btn_03.png" height="91" width="242">
+          <!-- 中间内容 end -->
+          <!-- 底部回复 -->
+          <div class="wx_bottom_return_mes">
+            <!-- 输入框 -->
+            <input class="makeBadInp_wapper" type="text" name="" placeholder="评论" v-model="makeBadInp">
+            <!-- 发送图片 -->
+            <img @click="makePic" class="bottom_btn_img" src="../assets/pl_bottom_btn_03.png" height="91" width="242">
       </div>
-          <!-- 底部回复 end -->
-        </div>
+            <!-- 底部回复 end -->
+          </div>
 </template>
 <script>
-import { GetDateAndHourStr, GetDateDel, makeRandomCount, getLocal } from '@/utils'
+import html2canvas from 'html2canvas'
+import { GetDateAndHourStr, GetDateDel, returnOnlyTime, makeRandomCount, getLocal } from '@/utils'
 import { returnImg, returnName, returnNoreapt } from "@/utils/makeJson.js"
 
 export default {
@@ -113,8 +136,12 @@ export default {
   data() {
     return {
       show: false,
+      marginTopClass: '', //离顶部的高度
+      nowTime: returnOnlyTime(), //现在的时间
       showDiaTip: true, //弹窗提示
       formInline: { //表单信息
+        hasZtl: '有', //有无状态栏
+        ztlSystem: '安卓', //操作系统
         nickName: 'ant', //昵称
         yourHeaderImg: '', //头像
         makeSelfPl: '', //存储自定义评论
@@ -133,6 +160,7 @@ export default {
         makeContentCount: 10, //评论个数
         makeContent: '评论内容', //评论内容
       },
+      screenUrl: '', //截图
       baseImgSizeClass: '', //根据图片的长宽决定图片的class
       makeBadInp: '', //假装的一个输入框
       likeImg: [], //头像
@@ -158,8 +186,32 @@ export default {
         }
         this.getLike() //获取点赞的头像
         this.getContent() //获取评论内容
+        this.baseSomeSetMargin() //根据有无状态栏、操作系统，判断离顶部的高度
       }
 
+    },
+    baseSomeSetMargin() { //根据有无状态栏、操作系统，判断离顶部的高度
+      let baseData = this.formInline
+      let setHig //margin高度
+      var _that = this
+      if (baseData.hasZtl === '有') { //有状态栏
+        // 计算状态栏+返回栏的高度
+        if (baseData.ztlSystem === '安卓') {
+          setHig = 'az_all_height'
+        } else {
+          setHig = 'ios_all_height'
+        }
+      } else { //没状态栏,只计算返回栏的高度
+        if (baseData.ztlSystem === '安卓') {
+          setHig = 'az_fh_height'
+        } else {
+          setHig = 'ios_fh_height'
+        }
+      }
+      _that.marginTopClass = setHig
+      console.log(_that.marginTopClass)
+    },
+    makePic() { //生成图片
     },
     getContent() { //获取评论内容
       //总共要生成多少条评论
@@ -272,6 +324,59 @@ $fontSizeSmall:35px;
   top: 0;
   bottom: 0;
 
+  .top_ztl {
+    position: relative;
+  }
+
+  .az_all_height {
+    margin-top: 212px;
+  }
+
+  .az_fh_height {
+    margin-top: 128px;
+  }
+
+  .ios_all_height {
+    margin-top: 158px;
+  }
+
+  .ios_fh_height {
+    margin-top: 99px;
+  }
+
+  .inner_resetTime {
+    // border: 1px solid red;
+    position: absolute;
+    display: inline-block;
+    padding: 4px;
+    background: #f2f2f2;
+  }
+
+  .az-time {
+    font-weight: bold;
+    font-size: 32px;
+    left: 28px;
+    top: 15px;
+  }
+
+  .ios-time {
+    font-weight: bold;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+  }
+
+  .az_ztl {
+    height: 82px;
+    background-image: url('../assets/az-ztl.png')
+  }
+
+  .ios_ztl {
+    height: 82px;
+    background-image: url('../assets/ios-ztl.png')
+  }
+
   .make_Dialog_wapper {
     position: fixed;
     left: 0;
@@ -382,6 +487,7 @@ $fontSizeSmall:35px;
 
     .word_img_left {
       width: 86px;
+      border-radius: 10px;
       height: 86px;
       margin-right: 25px;
       display: inline-block;
@@ -407,6 +513,7 @@ $fontSizeSmall:35px;
 
       .make_bad_header_img {
         width: 86px;
+        border-radius: 10px;
         height: 86px;
         display: inline-block;
         margin-right: 15px;
@@ -448,7 +555,7 @@ $fontSizeSmall:35px;
   }
 
   .concent_wapper {
-    margin-top: 136px;
+    // margin-top: 136px;
     box-sizing: border-box;
     padding: 28px;
     background-color: #fff;
@@ -499,6 +606,7 @@ $fontSizeSmall:35px;
           // margin-left:260px;
           // right: -230px;
           float: right;
+          margin-right: 30px;
 
         }
 
@@ -584,18 +692,18 @@ $fontSizeSmall:35px;
       .left_img {
         margin-right: 22px;
         // width: 102px;
-        flex: 0 0 102px;
-        height: 102px;
-
+        flex: 0 0 128px;
+        height: 128px;
         // border: 1px solid $grey;
         display: inline-block;
 
         // box-sizing:border-box;
         .img_wapper_span {
+          border-radius: 10px;
           display: inline-block;
           width: 100%;
           height: 100%;
-          border: 1px solid $grey;
+          // border: 1px solid $grey;
           box-sizing: border-box;
 
         }

@@ -105,8 +105,32 @@ export function GetDateAndHourMake(data) {
   return y + '年' + m + '月' + d + '日 ' + hour + ':' + minute
   // + ':' + seconds
 }
-export function makeRandomCount() {
-  return Math.floor(Math.random() * 20 + 1)
+export function returnOnlyTime() {
+  var dd = new Date()
+  // var y = dd.getFullYear()
+  // var m = dd.getMonth() + 1
+  // var d = dd.getDate()
+  var hour = dd.getHours()
+  var minute = dd.getMinutes()
+  var seconds = dd.getSeconds()
+  // if (m < 10) {
+  //   m = '0' + m
+  // }
+  // if (d < 10) {
+  //   d = '0' + d
+  // }
+  if (minute < 10) {
+    minute = '0' + minute
+    // hour = hour - 1
+  }
+  if (hour < 10) {
+    hour = '0' + hour
+  }
+  // if (seconds < 10) {
+  //   seconds = '0' + seconds
+  // }
+  return hour + ':' + minute
+  // + ':' + seconds
 }
 
 
