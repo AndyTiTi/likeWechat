@@ -6,7 +6,7 @@
       <section>
         <div class="bottom_text">以上由发量依然旺盛的<span class="mr_ant_color">Mr.ant</span>独立开发</div>
         <div>感谢阿里巴巴、腾讯、百度的特别<span class="no_zanzhu">没</span>赞助</div>
-        <div class="left_finger">👈👈👈长按关注</div>
+        <div class="left_finger">👈👈👈长按识别或保存到本地 关注</div>
       </section>
     </div>
   </div>
