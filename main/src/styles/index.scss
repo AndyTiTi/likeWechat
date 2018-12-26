@@ -1,0 +1,145 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+}
+
+* {
+  box-sizing: inherit;
+
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+  content: normal !important;
+}
+
+[aspectratio] {
+  position: relative;
+}
+
+[aspectratio]::before {
+  content: '';
+  display: block;
+  width: 1px;
+  margin-left: -1px;
+  height: 0;
+}
+
+[aspectratio-content] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+[flexContainer] {
+  display: flex;
+  width: 750px;
+}
+
+.block {
+  margin-top: 15px;
+}
+
+ul,
+li {
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+}
+
+figure {
+  display: block;
+  margin: 0;
+}
+
+
+// flexb布局
+.xt_flex {
+  display: -webkit-box;
+  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+  display: -moz-box;
+  /* 老版本语法: Firefox (buggy) */
+  display: -ms-flexbox;
+  /* 混合版本语法: IE 10 */
+  display: -webkit-flex;
+  /* 新版本语法: Chrome 21+ */
+  display: flex;
+  /* 新版本语法: Opera 12.1, Firefox 22+ */
+}
+
+.xt_flex_der {
+  //竖直垂直居中
+  -webkit-box-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.xt_flex_row_bettwen {
+  // 水平两端居中
+  -webkit-box-pack: space-between;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.xt_flex_row_right {
+  // 水平末端对齐
+  -webkit-box-pack: flex-end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.xt_flex_row_center {
+  //水平居中对齐
+  -webkit-box-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.xt_allow_wrap {
+  //允许换行
+  flex-wrap: wrap;
+}
+
+.common_back {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+// 竖直排列
+.flex_shu_pailie {
+  -webkit-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex_shu_top_bottom {
+  -webkit-box-align: flex-end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
