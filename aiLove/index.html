@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f81e7ecbdd878149780e83561cd83d57";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="aplus-terminal" content="1">
+    <meta name="apple-mobile-web-app-title" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no, address=no">
+    <script type="text/javascript" src="lib/vue.js"></script>
+    <script type="text/javascript" src="lib/ele.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/ele.css">
+    <link rel="stylesheet" href="./css/index.css" />
+    <title>设置</title>
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+    <div id="app2">
+        <div class="nameWapper">
+            <!-- 标题 -->
+            <el-card class="box-card">
+                <div class="wb_tou"></div>
+                <div class="tile">人工""智能
+""恋爱体验器2.0</div>
+            </el-card>
+            <!-- 内容 -->
+            <el-card class="box-card2">
+                <el-row type="flex" class="row-bg">
+                    <!-- 左边上传头像 -->
+                    <el-col :span="12" class="xt_flex flex-v xt_flex_der xt_flex_row_center">
+                        <span class="left_img_wapper">
+                            <img :src="initLeft" @click="uploadBtnOne">
+                        </span>
+                        <input accept="image/*" type="file" ref="inpOne" onchange="jsReadFiles(this.files)" style="display: none;" />
+                        <el-button @click="uploadBtnOne" size="small">上传他的头像</el-button>
+                    </el-col>
+                    <!-- 右边上传头像 -->
+                    <el-col :span="12" class="xt_flex flex-v xt_flex_der xt_flex_row_center">
+                        <span class="right_img_wapper">
+                            <img :src="initRight" @click="uploadBtnTwo">
+                        </span>
+                        <input accept="image/*" type="file" ref="inpTwo" onchange="jsReadFilesTwo(this.files)" style="display: none;" />
+                        <el-button @click="uploadBtnTwo" size="small">上传你的头像</el-button>
+                    </el-col>
+                </el-row>
+                <div class="inpp_wapper xt_flex">
+                    <el-input clearable v-model="inputOne" size="small" placeholder="请输入他的姓名"></el-input>
+                    <el-button type="primary" plain @click="suji" size="mini">随机他的名</el-button>
+                </div>
+                <div class="inpp_wapper xt_flex">
+                    <el-input clearable v-model="inputTwo" size="small" placeholder="请输入你的姓名"></el-input>
+                    <el-button type="primary" plain @click="suji2" size="mini">随机你的名</el-button>
+                </div>
+                <!-- 舔狗or被舔 -->
+                <div class="setbtnwapper xt_flex xt_flex_row_center">
+                    <el-button @click="goT('bt')" type="success" size="medium">我要热恋</el-button>
+                    <el-button @click="goT('t')" type="info" size="medium">我要冷战</el-button>
+                </div>
+            </el-card>
+            <!-- 尾部 -->
+            <!--  <el-card class="box-card bbottom">
+                <div class="tile">以上由帅气多金小哥哥<a class="aaa" href="https://weibo.com/u/5132471250">@马丁路德duang</a>翻制</div>
+                <div class="tile">copied by <a class="aaa" href="https://weibo.com/u/6177529873">@机智的何先生</a></div>
+            </el-card> -->
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+var _self
+//js 读取文件
+function jsReadFiles(files) {
+    var file = files[0];
+    console.log(file)
+    if (!/image\/\w+/.test(file.type)) {
+        alert("请确保文件为图像类型");
+        return false;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function(e) {
+        localStorage.setItem('herImg', this.result);
+        _self.initLeft = this.result
+    }
+}
+
+function jsReadFilesTwo(files) {
+    var file = files[0];
+    console.log(file)
+    if (!/image\/\w+/.test(file.type)) {
+        alert("请确保文件为图像类型");
+        return false;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function(e) {
+        localStorage.setItem('yourImg', this.result);
+        _self.initRight = this.result
+    }
+}
+
+function getRandomName() {
+
+    var xing = new Array(
+        "欧阳", "上官", "东方", "南宫", "夏侯", "诸葛", "尉迟", "皇甫", "公孙", "慕容",
+        "宇文", "司徒", "令狐", "百里", "西门", "端木", "沙雕", "王", "李", "周", "赵", "陈"
+    );
+    var ming = new Array(
+        "狗蛋", "铁柱", "狗剩", "麻子", "玉凤", "牛逼", "二蛋", "三炮", "腊肉", "淑芬", "玉梅",
+        "尼玛", "煎饼", "马桶", "王霸", "驴脸", "小眼", "肚兜", "美丽", "二狗", "英子",
+        "娟子", "麻瓜", "哈批", "狗娃", "沙雕", "臭屁", "腋窝", "排便", "包皮", "大牛",
+        "弱者", "无脑", "吐痰", "废物", "饼子", "指甲", "脱发", "发福", "头皮", "挠痒",
+        "泥巴", "老铁", "睫毛", "阿毛", "贱人", "墩柱", "阳伟", "蛮王", "莽撞", "大头",
+        "不服", "偷情", "拉翔", "想哭", "厚唇", "喷子", "艳丽", "菊花"
+    );
+
+    var num1 = Math.random();
+    num1 = Math.ceil(num1 * xing.length);
+
+    var num2 = Math.random();
+    num2 = Math.ceil(num2 * ming.length);
+
+    return xing[num1 - 1] + ming[num2 - 1];
+
+}
+var app = new Vue({
+    el: '#app2',
+    mounted() {
+        _self = this
+    },
+    data() {
+        return {
+            mes: 'ahhh',
+            inputOne: '',
+            inputTwo: '',
+            initLeft: 'img/left_img.jpg',
+            initRight: 'img/rig_img.jpg',
+            formInline: {
+                user: '',
+                region: ''
+            }
+        }
+    },
+    methods: {
+        onSubmit() {
+            alert(0)
+        },
+        uploadBtnOne() {
+            this.$refs.inpOne.click()
+        },
+        uploadBtnTwo() {
+            this.$refs.inpTwo.click()
+        },
+        suji() { //随机他的姓名
+            this.inputOne = getRandomName()
+
+        },
+        suji2() { //随机你的姓名
+            this.inputTwo = getRandomName()
+        },
+        goT(type) { //去舔、被舔
+            if (this.inputOne === '' || this.inputTwo === '') {
+                this.$message.error('怎么肥死小老弟，快补充姓名');
+                return false
+            } else {
+                localStorage.setItem("herName", this.inputOne);
+                localStorage.setItem("yourName", this.inputTwo);
+                localStorage.setItem('dogIf', type) //舔/被舔
+                window.location.href = "./detail.html"
+            }
+        }
+        // uploadImg(files) {
+        //     if (typeof FileReader === 'undefined') {
+        //         // result.innerHTML = "抱歉，你的浏览器不支持 FileReader";
+        //         alert("抱歉，你的浏览器不支持 FileReader");
+        //         hisinput.setAttribute('disabled', 'disabled');
+        //     }
+        //     console.log(files)
+        //     readFile1(files)
+        // }
+    }
+})
+</script>

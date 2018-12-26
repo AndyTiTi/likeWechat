@@ -1,0 +1,347 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/*// flexb布局*/
+.xt_flex {
+    display: -webkit-box;
+    /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box;
+    /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox;
+    /* 混合版本语法: IE 10 */
+    display: -webkit-flex;
+    /* 新版本语法: Chrome 21+ */
+    display: flex;
+    /* 新版本语法: Opera 12.1, Firefox 22+ */
+}
+
+.flex-v {
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.xt_flex_der {
+    /*//竖直垂直居中*/
+    -webkit-box-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.xt_flex_row_bettwen {
+    /*// 水平两端居中*/
+    -webkit-box-pack: space-between;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.xt_flex_row_right {
+    /*// 水平末端对齐*/
+    -webkit-box-pack: flex-end;
+    -moz-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+}
+
+.xt_flex_row_center {
+    /*//水平居中对齐*/
+    -webkit-box-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.xt_allow_wrap {
+    /*//允许换行*/
+    flex-wrap: wrap;
+}
+
+/*公用的flex布局*/
+.allWapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 1px solid #333;
+    /*overflow: auto;*/
+}
+
+.header_wapper {
+    height: 1.24rem;
+    /*line-height: 1.24rem;*/
+    width: 100%;
+    overflow: hidden;
+    background-color: #303030;
+}
+
+/*.reback{
+    color: #FFF;
+    display: inline-block;
+    height: 0.53rem;
+    font-weight: bold;
+}*/
+.img_wapper {
+    height: 0.53rem;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
+}
+
+.userName {
+    font-size: 0.45rem;
+    color: #fff;
+    font-weight: bold;
+}
+
+.diatil {
+    color: #fff;
+    /*margin-right: 0.4rem;*/
+}
+
+.diatil img {
+    height: 100%;
+    width: 1.8rem;
+}
+
+.main_wapper {
+    width: 100%;
+    height: 93%;
+    /*background-color: pink;*/
+    background-image: url(../img/ikun.jpg);
+    overflow: auto;
+    background-size: cover;
+    background-position: center center;
+}
+
+.chat_concent {
+    width: 100%;
+    height: auto;
+    /*height: 3000px;*/
+    /*background: pink;*/
+    padding: 0.25rem;
+    box-sizing: border-box;
+    padding-bottom: 1.45rem;
+}
+
+.bottom_area {
+    width: 100%;
+    height: 1.45rem;
+    background-color: #f4f4f4;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.yuyin img {
+    width: 1.65rem;
+    height: 100%;
+}
+
+.input_area .myInp {
+    width: 5.27rem;
+    height: 100%;
+    border: none;
+    background-color: #f4f4f4;
+
+    border-bottom: 1px solid #d8d8d8;
+    outline: none;
+    position: relative;
+    top: -0.28rem;
+
+    box-sizing: border-box;
+    font-size: 15px;
+    padding-top: 0.7rem;
+    ;
+
+}
+
+.biaoqingsend img {
+    width: 1.1rem;
+    height: 100%;
+}
+
+#btnSend {
+    border: none;
+    width: 1.3rem;
+    height: 0.85rem;
+    background: none;
+    background-color: #1cac19;
+    color: #fff;
+    line-height: 0.65rem;
+    font-size: 14px;
+    outline: none;
+    border-color: #1cac19;
+    margin-left: 0.25rem;
+    border-radius: 3px;
+}
+
+.biaoqingsend {
+    padding-right: 0.25rem;
+}
+
+/*聊天*/
+.user-group {
+    padding: 6px;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+}
+
+.admin-group {
+    padding: 6px;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+}
+
+.main_wapper .user-msg,
+.main_wapper .admin-msg {
+    /*width: 75%;*/
+    max-width: 70%;
+    position: relative;
+}
+
+.main_wapper .user-msg {
+    text-align: right;
+}
+
+.main_wapper .admin-reply,
+.main_wapper .user-reply {
+    display: inline-block;
+    /*padding: 0.08rem;*/
+    /*max-width: 6.7rem;*/
+    /*height: 1.2rem;*/
+    font-size: 15px;
+    /*line-height: 1.2rem;*/
+    border-radius: 0.1rem;
+    background-color: #fff;
+    margin: 0 0.5rem 0.12rem;
+    /*padding:0 0.2rem 0 0.2rem;*/
+    padding: 0.2rem 0.25rem;
+    box-sizing: border-box;
+}
+
+.main_wapper .admin-reply,
+.main_wapper .user-reply {
+    position: relative;
+}
+.main_wapper .admin-reply {
+    box-shadow: 0px 0px 2px #ddd;
+}
+
+.main_wapper .user-reply {
+    text-align: left;
+    background-color: #9EEA6A;
+    box-shadow: 0px 0px 2px #bbb;
+}
+
+i.triangle-admin,
+i.triangle-user {
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 10px;
+    display: inline-block;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.main_wapper i.triangle-admin {
+    left: -9px;
+    top: 10px;
+    border-right: 12px solid #fff;
+}
+
+.main_wapper i.triangle-user {
+    /*right: 0.2rem;*/
+    right: -9px;
+    top: 10px;
+    border-left: 12px solid #9EEA6A;
+}
+
+.main_wapper .admin-img,
+.main_wapper .user-img {
+    width: 45px;
+    height: 45px;
+}
+.setBk{
+    width: 45px;
+    height: 45px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*=============================================================*/
+.tile {
+    font-weight: bold;
+    text-align: center;
+}
+
+.box-card {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.nameWapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+    background-image: url(../img/realk.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.wb_tou {
+    display: inline-block;
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-image: url(../img/wb.png);
+    background-size: contain;
+    background-position: center center;
+}
+
+.left_img_wapper {
+    display: block;
+
+    /*border: 1px solid #333;*/
+}
+
+.left_img_wapper img,.right_img_wapper img {
+    /*height: 100%;*/
+    width: 60px;
+    height: 60px;
+}
+.inpp_wapper{
+    margin-top: 15px;
+}
+.setbtnwapper{
+    margin-top: 20px;
+}
+.el-card {
+    opacity: .9;
+}
+.aaa{
+    color: goldenrod;
+}
+.bbottom{
+   /* position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;*/
+    font-size: 14px;
+    margin-top: 20px;
+}
