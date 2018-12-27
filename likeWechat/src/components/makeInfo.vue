@@ -39,7 +39,7 @@
       <mt-field disabled label="朋友圈形式(内容、链接)" placeholder="" v-model="badInp">
         <!-- 内容 -->
         <div class="inner_no_padding">
-          <mt-radio title="" v-model="formInline.contentStyle" :options="['内容','链接']">
+          <mt-radio title="" v-model="formInline.contentStyle" :options="['内容','链接','内容+链接']">
           </mt-radio>
         </div>
       </mt-field>
@@ -51,7 +51,9 @@
           <div class="inner_show_example common_back"></div>
         </template>
         <!-- 链接 -->
-        <div v-else class="inner_show_example_other common_back"></div>
+        <div v-else-if="formInline.contentStyle==='链接'" class="inner_show_example_other common_back"></div>
+        <!-- 内容加链接 -->
+        <div v-else class="inner_show_example_other_all common_back"></div>
       </div>
       <!-- 两种情况下的示例 end-->
       <!-- 内容情况下 -->
@@ -70,7 +72,7 @@
       </template>
       <!--  内容情况下 end -->
       <!-- 链接情况下 -->
-      <template v-else>
+      <template v-else-if="formInline.contentStyle==='链接'">
         <mt-field disabled label="链接缩略图" placeholder="" v-model="badInp" placeholder="">
           <span v-if="formInline.smallImg!==''" class="inner_img_header common_back" @click="uploadBtnOne('inpThree')" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
           <input accept="image/*" type="file" ref="inpThree" @change="jsReadFiles($event,'smallImg','smallImg','form','str')" style="display: none;" />
@@ -82,6 +84,21 @@
         </mt-field>
       </template>
       <!-- 链接情况下 end -->
+      <!-- 内容加链接情况下 -->
+      <template v-else>
+        <!-- 内容 -->
+        <mt-field label="朋友圈内容" placeholder="" v-model="formInline.realContent" placeholder="朋友圈文字内容"></mt-field>
+        <mt-field disabled label="链接缩略图" placeholder="" v-model="badInp" placeholder="">
+          <span v-if="formInline.smallImg!==''" class="inner_img_header common_back" @click="uploadBtnOne('inpThree')" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
+          <input accept="image/*" type="file" ref="inpThree" @change="jsReadFiles($event,'smallImg','smallImg','form','str')" style="display: none;" />
+          <mt-button size="small" type="default" @click="uploadBtnOne('inpThree')">上传</mt-button>
+        </mt-field>
+        <mt-field label="链接内容" placeholder="" v-model="formInline.smallContent" placeholder="链接里图片旁的文字">
+        </mt-field>
+        <mt-field label="链接的网址" placeholder="" v-model="formInline.smallImgLink" placeholder="例:http://baidu.com">
+        </mt-field>
+      </template>
+      <!-- 内容加链接情况下 end -->
       <!-- 时间 -->
       <mt-field label="地点" placeholder="请输入地点" v-model="formInline.localtion"></mt-field>
       <mt-field label="选择发表时间" v-model="formInline.sendTime" placeholder="" disabled>
@@ -182,7 +199,7 @@ export default {
         smallContent: '', // 链接内容
         sendTime: GetDateAndHourStr(), // 发送时间
         sendTimeNoformat: new Date().getTime(), // 发送时间(未格式化)
-        makeLikeCount: 2, //点赞个数
+        makeLikeCount: 10, //点赞个数
         makeContentCount: 10, //评论个数
         makeContent: '', //评论内容
       },
@@ -354,6 +371,13 @@ $fontGold:#F5A623; //金色
       width: 100%;
       height: 300px;
       background-image: url('../assets/lianjie.jpg');
+      background-size: contain;
+    }
+
+    .inner_show_example_other_all {
+      width: 100%;
+      height: 300px;
+      background-image: url('../assets/ljwz.jpg');
       background-size: contain;
     }
   }

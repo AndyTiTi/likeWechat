@@ -52,7 +52,7 @@
         </div>
         <!-- 链接形式 end-->
         <!-- 内容形式 -->
-        <template v-else>
+        <template v-else-if="formInline.contentStyle==='内容'">
           <div class="pyq_conent">{{formInline.realContent}}</div>
           <!-- 图片等 -->
           <!-- 多张图 -->
@@ -66,6 +66,17 @@
           </div>
         </template>
         <!-- 内容形式 end-->
+        <!-- 内容加链接 -->
+        <template v-else>
+          <!-- 文字 -->
+          <div class="pyq_conent">{{formInline.realContent}}</div>
+          <!-- 链接 -->
+          <div @click="jumpUrl"  class="type_link xt_flex xt_flex_der">
+            <span class="type_link_inner_left common_back" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
+            <div class="type_link_inner_right">{{formInline.smallContent}}</div>
+          </div>
+        </template>
+        <!-- 内容加链接 end -->
         <!-- 地点 -->
         <div v-if="formInline.localtion!=''" class="yourway">{{formInline.localtion}}</div>
         <!-- 时间 -->
@@ -475,14 +486,14 @@ $fontSizeSmall:35px;
       outline: none;
       background: none;
       background: #fff;
-      border:none;
-      border:1px solid #fff;
+      border: none;
+      border: 1px solid #fff;
       font-size: $fontSizeCommon;
       // border-bottom: 1px solid $greenFont;
       // margin-top: 13px;
       padding: 14px 0;
-      margin-right:10px;
-      border-radius:5px;
+      margin-right: 10px;
+      border-radius: 5px;
       padding-left: 16px;
     }
   }
