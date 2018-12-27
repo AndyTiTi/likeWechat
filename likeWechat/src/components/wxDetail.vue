@@ -53,7 +53,7 @@
         <!-- 链接形式 end-->
         <!-- 内容形式 -->
         <template v-else-if="formInline.contentStyle==='内容'">
-          <div class="pyq_conent">{{formInline.realContent}}</div>
+          <div class="pyq_conent" v-html="formInline.realContent"></div>
           <!-- 图片等 -->
           <!-- 多张图 -->
           <template v-if="formInline.realImgs.length>1">
@@ -69,9 +69,9 @@
         <!-- 内容加链接 -->
         <template v-else>
           <!-- 文字 -->
-          <div class="pyq_conent">{{formInline.realContent}}</div>
+          <div class="pyq_conent" v-html="formInline.realContent"></div>
           <!-- 链接 -->
-          <div @click="jumpUrl"  class="type_link xt_flex xt_flex_der">
+          <div @click="jumpUrl" class="type_link xt_flex xt_flex_der">
             <span class="type_link_inner_left common_back" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
             <div class="type_link_inner_right">{{formInline.smallContent}}</div>
           </div>
@@ -197,7 +197,10 @@ export default {
   methods: {
     initData() {
       if (getLocal('makeJson')) { //如果local有数据
-        this.formInline = getLocal('makeJson')
+        let tempData = getLocal('makeJson')
+        // 内容加上换行
+        tempData.realContent = this.huanHang(tempData.realContent)
+        this.formInline = tempData
         console.log(this.formInline)
         // document.write(this.formInline)
         if (this.formInline.realImgs.length === 1) { //只有一张
@@ -208,6 +211,10 @@ export default {
         this.baseSomeSetMargin() //根据有无状态栏、操作系统，判断离顶部的高度
       }
 
+    },
+    huanHang(text) { //朋友圈内容的文字有换行
+      // return text
+      return text.replace(/\n|\r\n/g, "<br/>")
     },
     baseSomeSetMargin() { //根据有无状态栏、操作系统，判断离顶部的高度
       let baseData = this.formInline
@@ -646,7 +653,7 @@ $fontSizeSmall:35px;
       }
 
       .type_link {
-        width: 770px;
+        width: 750px;
         height: 183px;
         background-color: $backGrey;
         box-sizing: border-box;

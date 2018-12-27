@@ -59,7 +59,7 @@
       <!-- 内容情况下 -->
       <template v-if="formInline.contentStyle==='内容'">
         <!-- 内容 -->
-        <mt-field label="朋友圈内容" placeholder="" v-model="formInline.realContent" placeholder="朋友圈文字内容"></mt-field>
+        <mt-field type="textarea" label="朋友圈内容" placeholder="" v-model="formInline.realContent" placeholder="朋友圈文字内容"></mt-field>
         <!-- 上传图片 -->
         <mt-field disabled label="朋友圈图片" placeholder="" v-model="badInp" placeholder="">
           <span v-for="(item,index) in formInline.realImgs" v-if="formInline.realImgs.length>0" class="inner_img_header common_back" @click="uploadBtnOne('inpTwo')" :style="{backgroundImage:'url('+item+')'}"></span>
@@ -87,7 +87,7 @@
       <!-- 内容加链接情况下 -->
       <template v-else>
         <!-- 内容 -->
-        <mt-field label="朋友圈内容" placeholder="" v-model="formInline.realContent" placeholder="朋友圈文字内容"></mt-field>
+        <mt-field type="textarea" label="朋友圈内容" placeholder="" v-model="formInline.realContent" placeholder="朋友圈文字内容"></mt-field>
         <mt-field disabled label="链接缩略图" placeholder="" v-model="badInp" placeholder="">
           <span v-if="formInline.smallImg!==''" class="inner_img_header common_back" @click="uploadBtnOne('inpThree')" :style="{backgroundImage:'url('+formInline.smallImg+')'}"></span>
           <input accept="image/*" type="file" ref="inpThree" @change="jsReadFiles($event,'smallImg','smallImg','form','str')" style="display: none;" />
