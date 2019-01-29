@@ -16,6 +16,7 @@ export function returnImg(number, min, max) {
     var num = Math.floor(Math.random() * arr.length); //生成随机数num
     temp.push(baseUrl + arr[num] + '.jpg'); //获取arr[num]并放入temp
     arr.splice(num, 1);
+
   }
   return temp;
 }

@@ -255,7 +255,7 @@ export default {
       let _that = this
 
       let getNick = returnName(howCount) //拿到对应数量的昵称
-      let getImgHeader = returnImg(howCount, 0, 90) //拿到对应数量的头像
+      let getImgHeader = returnImg(howCount, 0, 250) //拿到对应数量的头像
       let getTimeNum = returnNoreapt(howCount, 0, 30) //生成0-30的随机数(时间)
       let makeTempJson = []
       for (var i = 0; i < howCount; i++) {
@@ -295,7 +295,7 @@ export default {
     },
     getLike() { //获取点赞的头像
       let mcount = this.formInline.makeLikeCount
-      this.likeImg = returnImg(mcount, 0, 90) //从0-90随机拿出图片,服务器放置了90张
+      this.likeImg = returnImg(mcount, 0, 250) //从0-90随机拿出图片,服务器放置了90张
     },
     baseimg() { //根据图片的长宽来决定怎么显示图片
       // img_con_wapper_weight 宽图
